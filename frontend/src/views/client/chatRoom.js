@@ -34,15 +34,15 @@ const Chat = () => {
     }
   }, [dispatch])
 
-  addMessage = message =>
+  const addMessage = message =>
     setState({...state, messages: [...state.messages, message]})
 
-  submitMessage = messageString => {
+  const submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { name: this.state.name, message: messageString }
     this.ws.send(JSON.stringify(message))
     console.log('submit',message)
-    this.addMessage(message)
+    addMessage(message)
   }
   console.log('state',this.state)
   return (
@@ -59,7 +59,7 @@ const Chat = () => {
       </label>
       <ChatInput
         ws={this.ws}
-        onSubmitMessage={messageString => this.submitMessage(messageString)}
+        onSubmitMessage={messageString => submitMessage(messageString)}
       />
       {
       this.state.messages.map((message, index) =>

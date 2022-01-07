@@ -1,10 +1,8 @@
 import { useState, React } from 'react'
 import PropTypes from 'prop-types'
 
-const ChatInput = () => {
-  const propTypes = {
-    onSubmitMessage: PropTypes.func.isRequired,
-  }
+const ChatInput = (props) => {
+  const { onSubmitMessage } = props
   const [message, setMesssage] = useState('')
 
 
