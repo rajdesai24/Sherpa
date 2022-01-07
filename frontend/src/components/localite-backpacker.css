@@ -1,0 +1,38 @@
+* {
+  /* background-color: #f8ff90; */
+  box-sizing: border-box;
+}
+
+.localite-container {
+  display: flex;
+  flex-direction: row;
+  font-size: 30px;
+  text-align: center;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 20%;
+}
+
+.localite-item-left {
+  background-color: #f1f1f1;
+  padding: 50px;
+  flex: 25%;
+}
+
+.localite-item-right {
+  background-color: #f1f1f1;
+  margin-left: 10%;
+  padding: 50px;
+  flex: 25%;
+}
+
+@media (max-width: 800px) {
+  .localite-container {
+    flex-direction: column;
+    margin-top: 40%;
+  }
+  .localite-item-right {
+    margin-left: 0;
+    margin-top: 10%;
+  }
+}
