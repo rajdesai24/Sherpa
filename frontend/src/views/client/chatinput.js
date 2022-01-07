@@ -1,34 +1,32 @@
-import React, { Component } from 'react'
+import { useState, React } from 'react'
 import PropTypes from 'prop-types'
 
-class ChatInput extends Component {
-  static propTypes = {
+const ChatInput = () => {
+  const propTypes = {
     onSubmitMessage: PropTypes.func.isRequired,
   }
-  state = {
-    message: '',
-  }
+  const [message, setMesssage] = useState('')
 
-  render() {
+
     return (
       <form
         action="."
         onSubmit={e => {
           e.preventDefault()
-          this.props.onSubmitMessage(this.state.message)
-          this.setState({ message: '' })
+          onSubmitMessage(message)
+          setMesssage('')
         }}
       >
           <input
           type="text"
           placeholder={'Enter message...'}
-          value={this.state.message}
-          onChange={e => this.setState({ message: e.target.value })}
+          value={message}
+          onChange={e => setMesssage(e.target.value)}
         />
         <input type="submit" value={'Send'} />
       </form>
     )
-  }
+  
 }
 
 export default ChatInput

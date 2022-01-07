@@ -1,43 +1,41 @@
-import React, { Component } from 'react'
+import { React, useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import ChatInput from './chatinput'
 import ChatMessage from './chatmessage'
 
 const URL = 'ws://localhost:8000/ws/29102'
 
-class Chat extends Component {
-  state = {
-    name: 'Bob',
-    messages: [],
-  }
+const Chat = () => {
+  const dispatch = useDispatch()
+ 
+  const [state, setState] = useState({
+    name: '',
+    messages: []
+  })
+  const [ws, setWS] = useState(new WebSocket(URL))
 
-  ws = new WebSocket(URL)
-
-  componentDidMount() {
-    this.ws.onopen = () => {
+  useEffect(() => {
+    ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected')
     }
 
-    this.ws.onmessage = evt => {
+    ws.onmessage = evt => {
       // on receiving a message, add it to the list of messages
       const message = evt.data
-      console.log('recieve',message)
-      this.addMessage(message)
-      return (<>{message}</>)
+      JSON.parse(message)
     }
 
-    this.ws.onclose = () => {
+    ws.onclose = () => {
       console.log('disconnected')
     
       // automatically try to reconnect on connection loss
-      this.setState({
-        ws: new WebSocket(URL),
-      })
+      setWS(new WebSocket(URL))
     }
-  }
+  }, [dispatch])
 
   addMessage = message =>
-    this.setState(state => ( { messages: [message,...state.messages] }))
+    setState({...state, messages: [...state.messages, message]})
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
@@ -46,36 +44,33 @@ class Chat extends Component {
     console.log('submit',message)
     this.addMessage(message)
   }
-
-  render() {
-    console.log('state',this.state)
-    return (
-      <div>
-        <label htmlFor="name">
-          Name:&nbsp;
-          <input
-            type="text"
-            id={'name'}
-            placeholder={'Enter your name...'}
-            value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
-          />
-        </label>
-        <ChatInput
-          ws={this.ws}
-          onSubmitMessage={messageString => this.submitMessage(messageString)}
+  console.log('state',this.state)
+  return (
+    <div>
+      <label htmlFor="name">
+        Name:&nbsp;
+        <input
+          type="text"
+          id={'name'}
+          placeholder={'Enter your name...'}
+          value={this.state.name}
+          onChange={e => this.setState({ name: e.target.value })}
         />
-        {
-        this.state.messages.map((message, index) =>
-          <ChatMessage
-            key={index}
-            message={message.message}
-            name={message.name}
-          />,
-        )}
-      </div>
-    )
-  }
+      </label>
+      <ChatInput
+        ws={this.ws}
+        onSubmitMessage={messageString => this.submitMessage(messageString)}
+      />
+      {
+      this.state.messages.map((message, index) =>
+        <ChatMessage
+          key={index}
+          message={message.message}
+          name={message.name}
+        />,
+      )}
+    </div>
+  )
 }
 
 export default Chat
