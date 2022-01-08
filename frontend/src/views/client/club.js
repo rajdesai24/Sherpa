@@ -5,6 +5,7 @@ import '../../components/roomCard.css'
 
 const Club = () => {
   const {clubName} = useParams()
+  console.log(clubName, "name")
   const user = /* localStorage.getItem("token") */'Mugdha'
   const clubList = [
     {
@@ -40,34 +41,29 @@ const Club = () => {
       ]
     }
   ]
-  console.log(clubList[1].chatRooms, "name")
+  const club = clubList.find(x => x.title === clubName);
   const history = useHistory();
-  const handleChatRoom = e => {
-    history.push('/:chatRoom')
-  }
+ 
   return (
     <>  
       { user ?
         <> 
           <div style={{backgroundColor: "#f8ff90"}}>
-            {clubList? (
-              clubList.map(club => {
-                if(club.title === clubName) {
-                  club.chatRooms.map(chatRoom => {
-                    return(
-                      <div className="card-container">
-                        <div>1</div>
-                          <button  style={{marginLeft: "0.5rem", cursor: "pointer"}}>
-                            Join
-                          </button>
-                      </div>  
-                    )
-                  })
-                }
-                else(<h1>This Club does not exist</h1>)
+            {club? (
+              club.chatRooms.map(chatRoom => {
+                return(
+                  <div className="card-container">
+                    <div>{chatRoom.title}</div>
+                      <Link to = {`/${clubName}/${chatRoom.title}`}>
+                        <button  style={{marginLeft: "0.5rem", cursor: "pointer"}}>
+                          Join
+                        </button>
+                      </Link>
+                  </div>  
+                )
               })
             ): (
-              <h1>your cart is empty</h1>
+              <h1>No Clubs available</h1>
             )}   
           </div>
         </> 
