@@ -1,10 +1,16 @@
 from typing import Optional
 
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager
-
+from fastapi_users import FastAPIUsers
+from fastapi_users.manager import BaseUserManager
+from fastapi_users.authentication import (
+    AuthenticationBackend,
+    BearerTransport,
+    JWTStrategy,
+)
+from fastapi_users.db import MongoDBUserDatabase
 from .db import get_user_db
-from .models import UserCreate, UserDB
+from .models import User, UserCreate, UserDB, UserUpdate
 
 SECRET = "SECRET"
 
@@ -28,5 +34,29 @@ class UserManager(BaseUserManager[UserCreate, UserDB]):
         print(f"Verification requested for user {user.id}. Verification token: {token}")
 
 
-async def get_user_manager(user_db=Depends(get_user_db)):
+async def get_user_manager(user_db: MongoDBUserDatabase = Depends(get_user_db)):
     yield UserManager(user_db)
+
+
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+
+
+def get_jwt_strategy() -> JWTStrategy:
+    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+
+
+auth_backend = AuthenticationBackend(
+    name="jwt",
+    transport=bearer_transport,
+    get_strategy=get_jwt_strategy,
+)
+fastapi_users = FastAPIUsers(
+    get_user_manager,
+    [auth_backend],
+    User,
+    UserCreate,
+    UserUpdate,
+    UserDB,
+)
+
+current_active_user = fastapi_users.current_user(active=True)
