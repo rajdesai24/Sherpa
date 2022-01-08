@@ -23,7 +23,6 @@ class Chat extends Component {
       const message = evt.data
       console.log('recieve',message)
       this.addMessage(message)
-      return (<>{message}</>)
     }
 
     this.ws.onclose = () => {
@@ -44,7 +43,7 @@ class Chat extends Component {
     const message = { name: this.state.name, message: messageString }
     this.ws.send(JSON.stringify(message))
     console.log('submit',message)
-    this.addMessage(message)
+    // this.addMessage(message)
   }
 
   render() {
