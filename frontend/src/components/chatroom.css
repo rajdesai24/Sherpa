@@ -1,0 +1,61 @@
+.main {
+  height: 100vh;
+  background-color: #f8ff90;
+  overflow-y: scroll;
+}
+.inputMessage {
+  width: 80%;
+  margin-left: 5%;
+  margin-top: 95vh; 
+  height: 2rem;
+}
+.chatNav {
+  background-color: black;
+  padding: 15px;
+  font-size: large;
+  color: #fff;
+  text-align: center;
+}
+.box {
+  width: 300px;
+  margin: 50px auto;
+  background: #00bfb6;
+  padding: 20px;
+  text-align: center;
+  font-weight: 900;
+  color: #fff;
+  font-family: arial;
+  position: relative;
+}
+
+.sb1:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid #00bfb6;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #00bfb6;
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 6px;
+}
+
+.sb2:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #00bfb6;
+  border-top: 10px solid #00bfb6;
+  border-bottom: 10px solid transparent;
+  left: -19px;
+  top: 6px;
+}
+@media (max-width: 1000px) {
+  .main {
+    height: 100vh;
+    width: 100%
+  }
+}

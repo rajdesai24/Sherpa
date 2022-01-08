@@ -3,7 +3,15 @@ import React from 'react'
 const ChatMessage = props => {
   const {name, message} = props
   return (
-    <p><strong>{name}</strong> <em>{message}</em></p>
+    <>
+      <div style={{marginTop: '-6.5rem', textAlign: 'right', marginRight: '3rem'}}>
+        <div /* className='box sb1' */>
+          <p><strong>{name}</strong> </p>
+          <em>{message}</em>
+        </div>
+      </div>
+      
+    </>
   )   
 }
   

@@ -2,6 +2,8 @@ import { React, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ChatInput from './chatinput'
 import ChatMessage from './chatmessage'
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import '../../components/chatroom.css'
 
 const URL = 'ws://localhost:8000/ws/29102'
 
@@ -9,8 +11,8 @@ const Chat = () => {
   const dispatch = useDispatch()
  
   const [state, setState] = useState({
-    name: '',
-    messages: []
+    name: 'Mugdha',
+    messages: ['abc', 'cded', 'cgsgs']
   })
   const [ws, setWS] = useState(new WebSocket(URL))
 
@@ -35,39 +37,31 @@ const Chat = () => {
   }, [dispatch])
 
   const addMessage = message =>
-    setState({...state, messages: [...state.messages, message]})
+    setState({...state, messages: [message, ...state.messages]})
 
   const submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { name: this.state.name, message: messageString }
-    this.ws.send(JSON.stringify(message))
+    const message = { name: state.name, message: messageString }
+    ws.send(JSON.stringify(message))
     console.log('submit',message)
     addMessage(message)
   }
-  console.log('state',this.state)
+  console.log('state',state)
   return (
-    <div>
-      <label htmlFor="name">
-        Name:&nbsp;
-        <input
-          type="text"
-          id={'name'}
-          placeholder={'Enter your name...'}
-          value={this.state.name}
-          onChange={e => this.setState({ name: e.target.value })}
-        />
-      </label>
+    <div className='main'>
+      <div className='chatNav'>Group Name</div>
+      <div style={{textAlign: "right", marginTop: "-2.5rem", color: "white", marginRight: "2rem"}}><MenuRoundedIcon/></div>
       <ChatInput
-        ws={this.ws}
+        ws={ws}
         onSubmitMessage={messageString => submitMessage(messageString)}
       />
       {
-      this.state.messages.map((message, index) =>
+      state.messages.map((message, index) =>
         <ChatMessage
           key={index}
           message={message.message}
           name={message.name}
-        />,
+        />
       )}
     </div>
   )
