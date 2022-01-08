@@ -16,14 +16,18 @@ const SignIn = () => {
     //event.preventDefault();
     //const checkLogin = dispatch(signIn({ email, password, role: "CUSTOMER" }))
   } 
+  const history = useHistory()
   const handleSignIn = async (event) => {
     if(!email || !password) {
       event.preventDefault()
       alert("Please enter all the fields")
     }
-    dispatch(login( formData , event))
-    //history.push('/')
+    else {
+      dispatch(login( formData , event))
+      history.push('/localite-backpacker')
+    }
   }
+
 
   return (
     <>

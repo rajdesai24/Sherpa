@@ -84,8 +84,9 @@ print('aaaya')
 #         return [auth_backend]
 #     else:
 #         return [auth_backend]
-
+from ..clubs.routers import club_router
 app.include_router(router,tags=['translate'])
+app.include_router(club_router,tags=['club'])
 app.include_router(
     fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
 )

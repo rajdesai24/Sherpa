@@ -2,6 +2,8 @@ import './App.css';
 import SignIn from './views/authentication/signIn';
 import SignUp from './views/authentication/signUp';
 import Loader from './components/loader';
+import Backpacker from './views/client/backpaker';
+import Localite from './views/client/localite';
 import CreateProfile from './views/client/createProfile';
 import LocaliteBackpacker from './views/client/localite-backpacker';
 import Club from './views/client/club';
@@ -27,10 +29,16 @@ function App() {
         <Route path="/localite-backpacker">
           <LocaliteBackpacker />
         </Route>
-        <Route path="/:identity/:clubName/:chatRoomName">
+        <Route path="/backpacker">
+          <Backpacker />
+        </Route>
+        <Route path="/localite">
+          <Localite />
+        </Route>
+        <Route path="/:clubName/:chatRoomName">
           <ChatRoom />
         </Route>
-        <Route path="/:identity/:clubName">
+        <Route path="/:clubName">
           <Club />
         </Route>
         {/* <Route component={NotFound} /> */}

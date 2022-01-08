@@ -7,11 +7,14 @@ const LocaliteBackpacker = () => {
   const handleLocalite = e => {
     history.push('/localite')
   }
+  const handleBackpacker = e => {
+    history.push('/backpacker')
+  }
   return (
     <>
       <div className="localite-container">
-        <div className="localite-item-left" onClick={(e) => handleLocalite()}>Localite</div>
-        <div className="localite-item-right">Backpacker</div>
+        <Link to = '/localite'><div className="localite-item-left">Localite</div></Link>
+        <Link to = '/backpacker'><div className="localite-item-right">Backpacker</div></Link>
       </div>  
     </>
   );
