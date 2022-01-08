@@ -3,19 +3,13 @@ from fastapi_users.models import BaseUser, BaseUserCreate, BaseUserUpdate, BaseU
 
 
 class User(BaseUser):
-    status:str
-    languages:List[str]
-    locals:List[str]
+    languages:str
 
 class UserCreate(BaseUserCreate):
-    status:str
-    languages:List[str]
-    locals:List[str]
+    languages:str
 
 class UserUpdate(User, BaseUserUpdate):
-    status:str
-    languages:List[str]
-    locals:List[str]
+    languages:str
 
 class UserDB(User, BaseUserDB):
     pass

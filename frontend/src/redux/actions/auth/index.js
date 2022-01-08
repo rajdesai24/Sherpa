@@ -1,41 +1,44 @@
 import request from "../../../services/request";
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'; 
+toast.configure() 
 
-export const login = ({email, password}, event) => {
+export const login = (formData, event) => {
   return async (dispatch) => {
-    const response = await request.post('/auth/login', {email, password, role:"CUSTOMER"});
-    if (response.data.success === true) {
+    const response = await request.post('/auth/jwt/login', formData);
+    if (response.data) {
       console.log(response, "response data");
       await dispatch({
         type: "LOGIN_SUCCESS",
-        payload: response.data.result.userData[0]
+        payload: response.data
       })
     
       toast.success("Login Successful!", {autoClose:2000})
-      localStorage.setItem('token', response.data.result.token);
-      localStorage.setItem('user', JSON.stringify(response.data.result));
-    } else if (response.status === 403){
-      console.log(response.data, "response data");
-      toast.danger("Either the email or password is incorrect", {autoClose:2000})
-      dispatch({
-        type:"LOGIN_FAILED",
-        payload:response.data
-      })
+      localStorage.setItem('token', response.data.access_token);
+      // localStorage.setItem('user', JSON.stringify(response.data));
+    // } else if (response.status === 403){
+    //   console.log(response.data, "response data");
+    //   toast.danger("Either the email or password is incorrect", {autoClose:2000})
+    //   dispatch({
+    //     type:"LOGIN_FAILED",
+    //     payload:response.data
+    //   })
     }
-    //return response.data;
+    return response.data;
   }
 }
 
-export const signup = ({userName, email, password}) => {
+export const signUp = (email, password,languages) => {
   return async (dispatch) => {
-    const response = await request.post('/auth/signup', {userName, email, role:"USER", password});
+    console.log(email,password,languages)
+    const response = await request.post('/auth/register', { email, password,languages});
     console.log(response.data, "USERINFORMATION");
     if (response.data.success) {
     await dispatch({
       type: "SIGNUP_SUCCESS",
       payload: response.data
     })
-    
-    localStorage.setItem('token', response.data.result.token);
+    localStorage.setItem('token', response.data.result.access_token);
     localStorage.setItem('user', JSON.stringify(response.data.result));
     } else {
       dispatch({

@@ -1,15 +1,19 @@
 import { React, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Redirect, useHistory, Route } from "react-router-dom";
-//import {signUp} from "../../redux/actions/auth/index.js";
+import {signUp} from "../../redux/actions/auth/index.js";
 //import { useDispatch } from "react-redux";
 
+
 const SignUp = () => {
+  const dispatch = useDispatch()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [language, setLanguage] = useState("");
+  
   const handleSignUp = (e) => {
-    if(!email || !password || !confirmPassword) {
+    if( !email || !language || !password || !confirmPassword) {
       e.preventDefault()
       alert("Please enter all the fields")
     }
@@ -17,7 +21,7 @@ const SignUp = () => {
       e.preventDefault()
       alert("Passwords don't match")
     }
-    //dispatch(signUp({ email, password})) 
+    dispatch(signUp( email,password,language))
   }
 
   return (
@@ -34,10 +38,15 @@ const SignUp = () => {
             <input type="password" placeholder="Password" value = {password} onChange={(e) => setPassword(e.target.value)}/>
           </div>
           <div className="input-div">
+            <label for="language">language</label>
+            <input type="text" placeholder="Language" value = {language} onChange={(e) => setLanguage(e.target.value)}/>
+          </div>
+          <div className="input-div">
             <label for="Password">Confirm Password</label>
             <input type="password" placeholder="Confirm Password" value = {confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
           </div>
-          <div className="btn">Sign Up</div>
+
+          <div onClick={(e) => handleSignUp(e)} className="btn">Sign Up</div>
           <p>Already have an account? <Link to = '/'>Log In</Link></p>
         </div>
       </div>

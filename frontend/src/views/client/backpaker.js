@@ -3,13 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { joinClub, getClubs } from "../../redux/actions/club";
 import '../../components/roomCard.css'
+import jwt_decode from 'jwt-decode';
+
+const token = localStorage.getItem("token")
+  var userId
+  if(token) {
+   userId = jwt_decode(token).user_id
+  }
 
 const Backpacker = () => {
   const {identity} = useParams()
   const dispatch = useDispatch()
   const user = /* localStorage.getItem("token") */'Mugdha'
-  const handleJoin = (e, clubName, user) => {
-    dispatch(joinClub(clubName))
+  const handleJoin = (e, clubName,) => {
+    dispatch(joinClub(clubName,userId))
   }
   const clubList = [
     {
