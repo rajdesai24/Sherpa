@@ -8,10 +8,16 @@ print('here')
 current_user = fastapi_users.current_user(get_enabled_backends=[auth_backend])
 from ..table.translation import router
 
-# @app.post("/user/islocal/")
-# async def islocal(user_id:int,request: Request):
-#     if (user := await request.app.mongodb["users"].find_one({"_id": id})) is not None:
-#         return task
+@app.post("/user/islocal/")
+async def islocal(user_id:int,request: Request,user:Depends(get_current_active),choice:bool):
+    if (user := await request.app.mongodb["users"].find_one({"email": user.email})) is not None:
+        
+        if choice==1:
+            status="local"
+        else:
+            status="traveller"
+        await request.app.mongodb["users"].update_one({"email":user.email,"status":status})
+        return True
 
 
 async def get_enabled_backends(request: Request):
@@ -22,6 +28,7 @@ async def get_enabled_backends(request: Request):
         return [auth_backend]
 
 current_active_user = fastapi_users.current_user(active=True,get_enabled_backends=get_enabled_backends)
+@app.post("/")
 
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_active_user)):

@@ -13,5 +13,6 @@ db = client["sherpa"]
 collection = db["users"]
 
 
+
 async def get_user_db():
     yield MongoDBUserDatabase(UserDB, collection)
