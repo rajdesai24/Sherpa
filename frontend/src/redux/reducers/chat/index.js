@@ -1,6 +1,6 @@
 const initialState = {}
 
-const authReducer = (state = initialState, action) => {
+const chatReducer = (state = initialState, action) => {
   console.log(action, "action");
   switch (action.type) {
     case "PROCESS":
@@ -9,4 +9,4 @@ const authReducer = (state = initialState, action) => {
       return state;
   }
 }
-export default authReducer;
+export default chatReducer;

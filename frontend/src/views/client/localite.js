@@ -1,10 +1,16 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { joinClub } from "../../redux/actions/club";
 import '../../components/roomCard.css'
 
 const Localite = () => {
   const {identity} = useParams()
+  const dispatch = useDispatch()
   const user = /* localStorage.getItem("token") */'Mugdha'
+  const handleJoin = (e, clubName, user) => {
+    dispatch(joinClub(clubName))
+  }
   const clubList = [
     {
       id: '1',
@@ -44,19 +50,22 @@ const Localite = () => {
     <>
       { user ?
         <> 
-          localite
+          
           <div style={{backgroundColor: "#f8ff90"}}>
             {clubList? (
               clubList.map(club => {
                 return(
-                  <div className="card-container">
-                    <div>{club.title}</div>
-                    <Link to = {`/${club.title}`}>
-                      <button  style={{marginLeft: "0.5rem", cursor: "pointer"}}>
-                        Join
-                      </button>
-                    </Link>
-                  </div>  
+                  <>
+                    <div className="card-container">
+                      <div>{club.title}</div>
+                      <Link to = {`/${club.title}`}>
+                        <button  style={{marginLeft: "0.5rem", cursor: "pointer"}} onClick={e => handleJoin(e, club.title)}>
+                          Join
+                        </button>
+                      </Link>
+                    </div>  
+                    <br/>
+                  </>   
                 )
               })         
             ): (
