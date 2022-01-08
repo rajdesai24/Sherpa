@@ -6,25 +6,25 @@ toast.configure()
 export const login = (formData, event) => {
   return async (dispatch) => {
     const response = await request.post('/auth/jwt/login', formData);
-    if (response.data.success === true) {
+    if (response.data) {
       console.log(response, "response data");
       await dispatch({
         type: "LOGIN_SUCCESS",
-        payload: response.data.result.userData[0]
+        payload: response.data
       })
     
       toast.success("Login Successful!", {autoClose:2000})
-      localStorage.setItem('token', response.data.result.access_token);
-      localStorage.setItem('user', JSON.stringify(response.data.result));
-    } else if (response.status === 403){
-      console.log(response.data, "response data");
-      toast.danger("Either the email or password is incorrect", {autoClose:2000})
-      dispatch({
-        type:"LOGIN_FAILED",
-        payload:response.data
-      })
+      localStorage.setItem('token', response.data.access_token);
+      // localStorage.setItem('user', JSON.stringify(response.data));
+    // } else if (response.status === 403){
+    //   console.log(response.data, "response data");
+    //   toast.danger("Either the email or password is incorrect", {autoClose:2000})
+    //   dispatch({
+    //     type:"LOGIN_FAILED",
+    //     payload:response.data
+    //   })
     }
-    //return response.data;
+    return response.data;
   }
 }
 

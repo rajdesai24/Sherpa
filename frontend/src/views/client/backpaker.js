@@ -1,10 +1,23 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { joinClub } from "../../redux/actions/club";
 import '../../components/roomCard.css'
+import jwt_decode from 'jwt-decode';
+
+const token = localStorage.getItem("token")
+  var userId
+  if(token) {
+   userId = jwt_decode(token).user_id
+  }
 
 const Backpacker = () => {
   const {identity} = useParams()
+  const dispatch = useDispatch()
   const user = /* localStorage.getItem("token") */'Mugdha'
+  const handleJoin = (e, clubName,) => {
+    dispatch(joinClub(clubName,userId))
+  }
   const clubList = [
     {
       id: '1',
@@ -48,14 +61,17 @@ const Backpacker = () => {
             {clubList? (
               clubList.map(club => {
                 return(
-                  <div className="card-container">
-                    <div>{club.title}</div>
-                    <Link to = {`/${club.title}`}>
-                      <button  style={{marginLeft: "0.5rem", cursor: "pointer"}}>
-                        Join
-                      </button>
-                    </Link>
-                  </div>  
+                  <>
+                    <div className="card-container">
+                      <div>{club.title}</div>
+                      <Link to = {`/${club.title}`}>
+                        <button  style={{marginLeft: "0.5rem", cursor: "pointer"}} onClick={e => handleJoin(e, club.title)}>
+                          Join
+                        </button>
+                      </Link>
+                    </div>  
+                    <br/>
+                  </>
                 )
               })         
             ): (

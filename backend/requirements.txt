@@ -5,7 +5,7 @@ cffi==1.15.0
 click==8.0.3
 dnspython==2.1.0
 email-validator==1.1.3
-fastapi==0.70.1
+fastapi==0.65.2
 fastapi-users==9.2.0
 fastapi-users-db-mongodb==1.1.0
 h11==0.12.0
