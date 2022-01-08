@@ -26,6 +26,7 @@ const Chat = () => {
       // on receiving a message, add it to the list of messages
       const message = evt.data
       JSON.parse(message)
+      addMessage(message)
     }
 
     ws.onclose = () => {

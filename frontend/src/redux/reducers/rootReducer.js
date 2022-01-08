@@ -2,13 +2,13 @@ import { combineReducers } from "redux";
 import auth from "./auth/index.js"
 import chat from "./chat/index.js"
 import club from "./club/index.js"
-import Chat from "../../views/client/chatRoom.js";
+import ChatRoom from "./chat/index.js"
 
 const rootReducer = combineReducers({
   auth,
   chat,
   club,
-  Chat
+  ChatRoom
 });
 
 export default rootReducer;
