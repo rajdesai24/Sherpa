@@ -1,34 +1,36 @@
-import React, { Component } from 'react'
+import { useState, React } from 'react'
 import PropTypes from 'prop-types'
+import '../../components/chatroom.css' 
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
-class ChatInput extends Component {
-  static propTypes = {
-    onSubmitMessage: PropTypes.func.isRequired,
-  }
-  state = {
-    message: '',
-  }
+const ChatInput = (props) => {
+  const { onSubmitMessage } = props
+  const [message, setMesssage] = useState('')
 
-  render() {
+
     return (
       <form
         action="."
         onSubmit={e => {
           e.preventDefault()
-          this.props.onSubmitMessage(this.state.message)
-          this.setState({ message: '' })
+          if(message === ''){alert('please enter a message')}
+          else {
+            onSubmitMessage(message)
+            setMesssage('')
+          }
         }}
       >
-          <input
+        <input
+          className='inputMessage'
           type="text"
           placeholder={'Enter message...'}
-          value={this.state.message}
-          onChange={e => this.setState({ message: e.target.value })}
+          value={message}
+          onChange={e => setMesssage(e.target.value)}
         />
-        <input type="submit" value={'Send'} />
+        <input type="submit" value={'Send'} style={{height: "2rem"}}/>
       </form>
     )
-  }
+  
 }
 
 export default ChatInput

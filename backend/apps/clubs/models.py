@@ -1,15 +1,18 @@
 from pydantic import BaseModel
 from typing import Dict, List, Optional
+
+from backend.apps.users.models import User
+class ChatRoom(BaseModel):
+    title:str
+    host:User
+    participants: List[User]
+
 class Club(BaseModel):
-    name:str
-    chat: List[id]
-    founder:str
-    memebers:List[id]
-    language_percentage:List[Dict]
-class chat(BaseModel):
-    name:str
-    host:str
-    viewers:List[id]
+    club_name:str
+    founder:User
+    memebers:List[User]
+    # language_percentage:List[Dict]
+    chatroom: List[ChatRoom]
 
 
     

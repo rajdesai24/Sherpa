@@ -1,24 +1,28 @@
-import React, { Component } from 'react'
+import { React, useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import ChatInput from './chatinput'
 import ChatMessage from './chatmessage'
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import '../../components/chatroom.css'
 
 const URL = 'ws://localhost:8000/ws/29102'
 
-class Chat extends Component {
-  state = {
-    name: 'Bob',
-    messages: [],
-  }
+const Chat = () => {
+  const dispatch = useDispatch()
+ 
+  const [state, setState] = useState({
+    name: 'Mugdha',
+    messages: ['abc', 'cded', 'cgsgs']
+  })
+  const [ws, setWS] = useState(new WebSocket(URL))
 
-  ws = new WebSocket(URL)
-
-  componentDidMount() {
-    this.ws.onopen = () => {
+  useEffect(() => {
+    ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected')
     }
 
-    this.ws.onmessage = evt => {
+    ws.onmessage = evt => {
       // on receiving a message, add it to the list of messages
       const message = evt.data
       var mess=JSON.parse(message)
@@ -26,56 +30,43 @@ class Chat extends Component {
       this.addMessage(mess)
     }
 
-    this.ws.onclose = () => {
+    ws.onclose = () => {
       console.log('disconnected')
     
       // automatically try to reconnect on connection loss
-      this.setState({
-        ws: new WebSocket(URL),
-      })
+      setWS(new WebSocket(URL))
     }
-  }
+  }, [dispatch])
 
-  addMessage = message =>
-    this.setState(state => ( { messages: [message,...state.messages] }))
+  const addMessage = message =>
+    setState({...state, messages: [message, ...state.messages]})
 
-  submitMessage = messageString => {
+  const submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { name: this.state.name, message: messageString }
-    this.ws.send(JSON.stringify(message))
+    const message = { name: state.name, message: messageString }
+    ws.send(JSON.stringify(message))
     console.log('submit',message)
     // this.addMessage(message)
   }
-
-  render() {
-    console.log('state',this.state)
-    return (
-      <div>
-        <label htmlFor="name">
-          Name:&nbsp;
-          <input
-            type="text"
-            id={'name'}
-            placeholder={'Enter your name...'}
-            value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
-          />
-        </label>
-        <ChatInput
-          ws={this.ws}
-          onSubmitMessage={messageString => this.submitMessage(messageString)}
+  console.log('state',state)
+  return (
+    <div className='main'>
+      <div className='chatNav'>Group Name</div>
+      <div style={{textAlign: "right", marginTop: "-2.5rem", color: "white", marginRight: "2rem"}}><MenuRoundedIcon/></div>
+      <ChatInput
+        ws={ws}
+        onSubmitMessage={messageString => submitMessage(messageString)}
+      />
+      {
+      state.messages.map((message, index) =>
+        <ChatMessage
+          key={index}
+          message={message.message}
+          name={message.name}
         />
-        {
-        this.state.messages.map((message, index) =>
-          <ChatMessage
-            key={index}
-            message={message.message}
-            name={message.name}
-          />,
-        )}
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 }
 
 export default Chat

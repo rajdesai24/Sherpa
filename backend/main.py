@@ -7,6 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 # from apps.users.auth import jwt_authentication
 from apps.users.models import User, UserCreate, UserUpdate, UserDB
 # from apps.users.routers import get_users_router
+from fastapi.middleware.cors import CORSMiddleware
 
 # @app.on_event("startup")
 # async def configure_db_and_routes():
@@ -43,4 +44,4 @@ from apps.users.models import User, UserCreate, UserUpdate, UserDB
 
 
 if __name__ == "__main__":
-    uvicorn.run("apps.users.routers:app",host="0.0.0.0", port=8000, log_level="info")
+    uvicorn.run("apps.users.routers:app",host="127.0.0.1", port=8000, log_level="info")

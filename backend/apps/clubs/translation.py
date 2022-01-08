@@ -1,3 +1,4 @@
+from typing import Text
 from fastapi import APIRouter,Depends,Request
 from ..users.routers import app
 from ..users.models import User
@@ -13,10 +14,10 @@ async def get_enabled_backends(request: Request):
         return [auth_backend]
 
 
-current_active_user = fastapi_users.current_user(active=True, get_enabled_backends=get_enabled_backends)
+current_active_user = fastapi_users.current_user(active=True,get_enabled_backends=get_enabled_backends)
 
 @router.get("/translate/", tags=["translate"])
-async def translate(message:str,to_lang:str,    user: User = Depends(fastapi_users.current_user)):
+async def translate(message:str,to_lang:str,):
     translator=Translator(provide='MyMemory',to_lang = to_lang)
-    translation= translator.translate()
+    translation= translator.translate(text=message)
     return {"translation": translation}

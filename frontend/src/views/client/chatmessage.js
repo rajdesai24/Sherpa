@@ -1,21 +1,20 @@
-import React,{ Component } from 'react'
+import React from 'react'
 
-
-
-
-class ChatMessage extends Component {
-    
+const ChatMessage = props => {
+  const {name, message} = props
+  return (
+    <>
+      <div style={{marginTop: '-6.5rem', textAlign: 'right', marginRight: '3rem'}}>
+        <div /* className='box sb1' */>
+          <p><strong>{name}</strong> </p>
+          <em>{message}</em>
+        </div>
+      </div>
+      
+    </>
+  )   
+}
   
-    render() {
-      return (
-        <p>
-        <strong>{this.props.name}</strong> <em>{this.props.message}</em>
-      </p>
-    
-          )
-    }
-  }
-  
-  export default ChatMessage
+export default ChatMessage
   
   
