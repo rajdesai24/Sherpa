@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { joinClub } from "../../redux/actions/club";
+import { joinClub, getClubs } from "../../redux/actions/club";
 import '../../components/roomCard.css'
 
 const Backpacker = () => {

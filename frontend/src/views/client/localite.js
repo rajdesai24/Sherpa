@@ -1,16 +1,24 @@
 import { React, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { joinClub } from "../../redux/actions/club";
+import { joinClub, getClubs, createClub } from "../../redux/actions/club";
 import '../../components/roomCard.css'
+import { create } from "@mui/material/styles/createTransitions";
 
 const Localite = () => {
   const {identity} = useParams()
   const dispatch = useDispatch()
   const user = /* localStorage.getItem("token") */'Mugdha'
-  const handleJoin = (e, clubName, user) => {
+  const [clubName, setClubName] = useState('')
+  const handleJoin = (clubName) => {
     dispatch(joinClub(clubName))
   }
+  /* const handleCreate = clubName => {
+    dispatch(createClub(clubName))
+  } */
+  useEffect(() => {
+    dispatch(getClubs)
+  }, [dispatch])
   const clubList = [
     {
       id: '1',
@@ -50,7 +58,7 @@ const Localite = () => {
     <>
       { user ?
         <> 
-          
+          {/* <button onClick={()=> handleCreate()}>Create Club</button> */}
           <div style={{backgroundColor: "#f8ff90"}}>
             {clubList? (
               clubList.map(club => {
@@ -59,7 +67,7 @@ const Localite = () => {
                     <div className="card-container">
                       <div>{club.title}</div>
                       <Link to = {`/${club.title}`}>
-                        <button  style={{marginLeft: "0.5rem", cursor: "pointer"}} onClick={e => handleJoin(e, club.title)}>
+                        <button  style={{marginLeft: "0.5rem", cursor: "pointer"}} onClick={() => handleJoin(club.title)}>
                           Join
                         </button>
                       </Link>

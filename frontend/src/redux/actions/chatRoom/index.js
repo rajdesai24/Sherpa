@@ -3,11 +3,11 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 toast.configure() 
 
-export const joinClub = (clubName, user) => {
+export const participateChatRoom = (chatRoomName, user) => {
   return async(dispatch) => {
-    await request.patch(`/enterclub/${clubName}`, user).then((response) => {
+    await request.patch(`/participate-chatroom/${chatRoomName}`, user).then((response) => {
       dispatch({
-        type: "ADD_USER_TO_CLUB",
+        type: "USER_PARTICIPATE_CHATROOM",
         payload: response.data
       });
       if(response.data === true){
@@ -20,11 +20,11 @@ export const joinClub = (clubName, user) => {
   };
 } 
 
-export const createClub = (clubName) => {
+export const createChatRoomlub = (chatRoomName) => {
   return async(dispatch) => {
-    await request.post(`/create-club`, clubName).then((response) => {
+    await request.post(`/create-chatroom`, chatRoomName).then((response) => {
       dispatch({
-        type: "CREATE_CLUB",
+        type: "CREATE_CHATROOM",
         payload: response.data
       });
       if(response.data === true){
@@ -37,11 +37,11 @@ export const createClub = (clubName) => {
   };
 }
 
-export const getClubs = () => {
+export const getChatRooms = () => {
   return async(dispatch) => {
-    await request.get(`/clubs`).then((response) => {
+    await request.get(`/chatrooms`).then((response) => {
       dispatch({
-        type: "GET_CLUBS",
+        type: "GET_CHATROOMS",
         payload: response.data
       });
       if(response.data === true){
