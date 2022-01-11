@@ -53,3 +53,20 @@ export const getChatRooms = () => {
     })
   };
 }
+
+export const translate = (message, language) => {
+  return async(dispatch) => {
+    await request.get(`/translate`, {message, language}).then((response) => {
+      dispatch({
+        type: "TRANSLATE",
+        payload: response.data
+      });
+      if(response.data === true){
+        toast.success(response.data.message, {autoClose:2000})
+      }
+      else {
+        toast.error(response.data.message)
+      }
+    })
+  };
+}

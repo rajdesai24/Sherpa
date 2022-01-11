@@ -1,7 +1,8 @@
 const initialState = {
   userJoin: {},
   getClubs: [],
-  createClub: {}
+  createClub: {},
+  translate: {}
 };
  
 const ClubReducer = (state = initialState, action) => {
@@ -13,6 +14,8 @@ const ClubReducer = (state = initialState, action) => {
       return { ...state, getClubs: action.payload };
     case "CREATE_CLUB":
       return { ...state, createClub: action.payload };
+    case "TRANSLATE":
+      return { ...state, translate: action.payload };
     default:
       return state;
   }
