@@ -56,9 +56,43 @@ async def get_enabled_backends(request: Request):
     else:
         return [cookie_backend, jwt_backend]
 
-print('pehla')
 current_active_user = fastapi_users.current_user(active=True,get_enabled_backends=get_enabled_backends)
 print('dusra aaya')
+
+
+
+from typing import List
+from fastapi import APIRouter,WebSocket
+
+chat_router=APIRouter()
+class ConnectionManager:
+    def __init__(self):
+        self.connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.connections.append(websocket)
+
+    async def broadcast(self, data: str):
+        for connection in self.connections:
+            await connection.send_text(data)
+            print('sent')
+
+
+manager = ConnectionManager()
+
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, client_id: int):
+    await manager.connect(websocket)
+    while True:
+        data = await websocket.receive_text()
+        print(data)
+        await manager.broadcast(data)
+
+
+
+
 
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_active_user)):
@@ -87,6 +121,7 @@ print('aaaya')
 from ..clubs.routers import club_router
 app.include_router(router,tags=['translate'])
 app.include_router(club_router,tags=['club'])
+app.include_router(chat_router,tags=['chat'])
 app.include_router(
     fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
 )
