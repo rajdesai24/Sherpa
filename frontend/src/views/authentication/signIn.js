@@ -28,7 +28,7 @@ const SignIn = () => {
     }
     else {
       dispatch(login( formData , event))
-      history.push('/localite-backpacker')
+      //history.push('/localite-backpacker')
     }
   }
 
