@@ -16,43 +16,10 @@ const Localite = () => {
   /* const handleCreate = clubName => {
     dispatch(createClub(clubName))
   } */
+  const clubList=useSelector(state=>state.club.getClubs)
   useEffect(() => {
-    dispatch(getClubs)
+    dispatch(getClubs())
   }, [dispatch])
-  const clubList = [
-    {
-      id: '1',
-      title: 'food',
-      chatRooms: [
-        {
-          id: '11',
-          title: 'chinese food',
-        },
-        {
-          id: '12',
-          title: 'italian food',
-        },
-        {
-          id: '13',
-          title: 'Indian food',
-        }
-      ]
-    },
-    {
-      id: '2',
-      title: 'clubbing',
-      chatRooms: [
-        {
-          id: '21',
-          title: 'aabc club',
-        },
-        {
-          id: '21',
-          title: 'bjdcb club and bar',
-        }
-      ]
-    }
-  ]
 
   return (
     <>
@@ -60,12 +27,12 @@ const Localite = () => {
         <> 
           {/* <button onClick={()=> handleCreate()}>Create Club</button> */}
           <div style={{backgroundColor: "#f8ff90"}}>
-            {clubList? (
+            {clubList && clubList.length>0 ? (
               clubList.map(club => {
                 return(
                   <>
                     <div className="card-container">
-                      <div>{club.title}</div>
+                      <div>{club.clubname}</div>
                       <Link to = {`/${club.title}`}>
                         <button  style={{marginLeft: "0.5rem", cursor: "pointer"}} onClick={() => handleJoin(club.title)}>
                           Join

@@ -20,8 +20,8 @@ export const login = (formData, event) => {
         payload: response.data
       })
       toast.success("login successful", {autoClose:2000})
-      localStorage.setItem('token', response.data.result.access_token);
-      localStorage.setItem('user', JSON.stringify(response.data.result));
+      localStorage.setItem('token', response.data.access_token);
+      localStorage.setItem('user', JSON.stringify(response.data));
       history.push('/localite-backpacker')
       window.location.reload();
     }

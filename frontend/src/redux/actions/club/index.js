@@ -39,7 +39,8 @@ export const createClub = (clubName) => {
 
 export const getClubs = () => {
   return async(dispatch) => {
-    await request.get(`/clubs`).then((response) => {
+    await request.get('/club/all').then((response) => {
+      console.log(response,'club')
       dispatch({
         type: "GET_CLUBS",
         payload: response.data

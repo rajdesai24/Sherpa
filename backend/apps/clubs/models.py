@@ -16,3 +16,6 @@ class Club(BaseModel):
     chatroom: Optional[List[ChatRoom]]
     class Config:
         orm_mode = True
+
+
+    
