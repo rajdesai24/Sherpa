@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import ChatInput from './chatinput'
 import ChatMessage from './chatmessage'
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -9,7 +10,7 @@ const URL = 'ws://localhost:8000/ws/29102'
 
 const Chat = () => {
   const dispatch = useDispatch()
- 
+  const user = localStorage.getItem("token")
   const [state, setState] = useState({
     name: 'Mugdha',
     messages: ['abc', 'cded', 'cgsgs']
@@ -49,22 +50,28 @@ const Chat = () => {
   }
   console.log('state',state)
   return (
-    <div className='main'>
-      <div className='chatNav'>Group Name</div>
-      <div style={{textAlign: "right", marginTop: "-2.5rem", color: "white", marginRight: "2rem"}}><MenuRoundedIcon/></div>
-      <ChatInput
-        ws={ws}
-        onSubmitMessage={messageString => submitMessage(messageString)}
-      />
-      {
-      state.messages.map((message, index) =>
-        <ChatMessage
-          key={index}
-          message={message.message}
-          name={message.name}
-        />
-      )}
-    </div>
+    <>
+      {user? 
+        <>
+          <div className='main'>
+            <div className='chatNav'>Group Name</div>
+            <div style={{textAlign: "right", marginTop: "-2.5rem", color: "white", marginRight: "2rem"}}><MenuRoundedIcon/></div>
+            <ChatInput
+              ws={ws}
+              onSubmitMessage={messageString => submitMessage(messageString)}
+            />
+            {
+            state.messages.map((message, index) =>
+              <ChatMessage
+                key={index}
+                message={message.message}
+                name={message.name}
+              />
+            )}
+          </div>
+        </>
+      : <Link to="/login">Please Log In</Link> }
+    </>
   )
 }
 

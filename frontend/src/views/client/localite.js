@@ -8,7 +8,7 @@ import { create } from "@mui/material/styles/createTransitions";
 const Localite = () => {
   const {identity} = useParams()
   const dispatch = useDispatch()
-  const user = /* localStorage.getItem("token") */'Mugdha'
+  const user = localStorage.getItem("token") 
   const [clubName, setClubName] = useState('')
   const handleJoin = (clubName) => {
     dispatch(joinClub(clubName))

@@ -14,7 +14,7 @@ const token = localStorage.getItem("token")
 const Backpacker = () => {
   const {identity} = useParams()
   const dispatch = useDispatch()
-  const user = /* localStorage.getItem("token") */'Mugdha'
+  const user = localStorage.getItem("token") 
   const handleJoin = (e, clubName,) => {
     dispatch(joinClub(clubName,userId))
   }

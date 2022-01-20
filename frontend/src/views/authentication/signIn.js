@@ -13,8 +13,12 @@ const SignIn = () => {
   formData.append("username", username);
   formData.append("password", password);
   const handleSubmit = (event) => {
-    //event.preventDefault();
-    //const checkLogin = dispatch(signIn({ email, password, role: "CUSTOMER" }))
+    if(!email || !password) {
+      event.preventDefault()
+      alert("Please enter all the fields")
+    }
+    event.preventDefault();
+    dispatch(login({ email, password }, event))
   } 
   const history = useHistory()
   const handleSignIn = async (event) => {
