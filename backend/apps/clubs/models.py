@@ -8,9 +8,10 @@ class ChatRoom(BaseModel):
     participants: Optional[List[User]]
 
 class Club(BaseModel):
-    club_name:str
+    _id:id
+    clubname:Optional[str]
     founder:Optional[str]
-    memebers:Optional[List[User]]
+    members:Optional[List[User]]
     # language_percentage:List[Dict]
     chatroom: Optional[List[ChatRoom]]
     class Config:

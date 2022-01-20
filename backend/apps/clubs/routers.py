@@ -13,9 +13,12 @@ db = client['sherpa']
 async def all_clubs():
     clubs=[]
     cur=db['club'].find({})
+    print('cur:',cur)
     async for club in cur:
         print(club)
+        print(Club(**club).clubname)
         clubs.append(Club(**club))
+        print(clubs)
     print(clubs)
     return clubs
 #    clubs= await db["club"].find().to_list(100)
